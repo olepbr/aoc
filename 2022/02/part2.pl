@@ -2,11 +2,6 @@
 
 use warnings;
 use v5.32;
-use utf8;
-
-my $score = 0;
-
-my @opp_moves = ("Rock", "Paper", "Scissors");
 
 my %move_hash = (
 	"A" => {
@@ -40,6 +35,8 @@ sub get_move_and_score {
 	my $score = $move_hash{$move}{"score"} + $score_hash{$result};
 	return ($move_hash{$move}{"name"}, $score);
 }
+
+my $score = 0;
 
 open(my $in, "<", "input.txt") or die "Couldn't open input.txt: $!";
 
