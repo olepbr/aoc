@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 
-use warnings;
 use v5.32;
+use warnings;
 use utf8;
 
 use File::Slurper qw(read_lines);

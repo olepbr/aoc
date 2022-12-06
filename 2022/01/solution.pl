@@ -1,7 +1,8 @@
 #! /usr/bin/perl
 
-use warnings;
 use v5.32;
+use warnings;
+
 use List::Util qw(sum);
 
 my $cur_sum = 0;

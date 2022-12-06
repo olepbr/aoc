@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 
-use warnings;
 use v5.32;
+use warnings;
 
 my @opp_moves = ("A", "B", "C");
 my $score = 0;
