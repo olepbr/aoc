@@ -6,7 +6,7 @@ use utf8;
 
 use File::Slurper qw(read_lines);
 use List::Util qw(reduce);
-use Set::Scalar;
+use Set::Object qw(set);
 
 sub find_misplaced {
     my (@strs) = @_;
@@ -15,9 +15,9 @@ sub find_misplaced {
     foreach (@strs) {
         my $strlen = length($_) / 2;
         my ($head, $tail) = unpack("A$strlen A$strlen", $_);
-        my $head_set = Set::Scalar->new(split(//, $head));
-        my $tail_set = Set::Scalar->new(split(//, $tail));
-        push @commons, $head_set->intersection($tail_set)->members;
+        my $head_set = set(split(//, $head));
+        my $tail_set = set(split(//, $tail));
+        push @commons, ($head_set * $tail_set)->members;
     }
     return @commons;
 }
@@ -29,10 +29,10 @@ sub find_badges {
         # splice eats the array, nom nom
         my @cur_group = splice @strs, 0, 3;
         my ($head, $mid, $tail) = @cur_group;
-        my $head_set = Set::Scalar->new(split(//, $head));
-        my $mid_set = Set::Scalar->new(split(//, $mid));
-        my $tail_set = Set::Scalar->new(split(//, $tail));
-        my @common = $head_set->intersection($mid_set)->intersection($tail_set)->members;
+        my $head_set = set(split(//, $head));
+        my $mid_set = set(split(//, $mid));
+        my $tail_set = set(split(//, $tail));
+        my @common = ($head_set * $mid_set * $tail_set)->members;
         push @badges, @common;
     }
     return @badges;
