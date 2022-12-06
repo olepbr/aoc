@@ -12,9 +12,7 @@ sub count_ranges {
     my $fully_contained = 0;
     my $overlapping = 0;
     foreach (@ranges) {
-        my ($first, $second) = split /,/, $_;
-        my ($fstart, $fend) = split /-/, $first;
-        my ($sstart, $send) = split /-/, $second;
+        my ($fstart, $fend, $sstart, $send) = split(/-|,/, $_);
         my $first_set = set($fstart..$fend);
         my $second_set = set($sstart..$send);
         $fully_contained += 1 if ($first_set <= $second_set || $second_set <= $first_set);
