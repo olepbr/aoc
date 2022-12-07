@@ -7,23 +7,11 @@ use utf8;
 use File::Slurper qw(read_lines);
 use Set::Object qw(set);
 
-sub count_ranges {
-    my (@ranges) = @_;
-    my $fully_contained = 0;
-    my $overlapping = 0;
-    foreach (@ranges) {
-        my ($fstart, $fend, $sstart, $send) = split(/-|,/, $_);
-        my $first_set = set($fstart..$fend);
-        my $second_set = set($sstart..$send);
-        $fully_contained += 1 if ($first_set <= $second_set || $second_set <= $first_set);
-        $overlapping += 1 if (scalar ($first_set * $second_set)->members);
-    }
-    return ($fully_contained, $overlapping);
-}
+my @tuples = map { [ (set($_->[0]..$_->[1]), set($_->[2]..$_->[3])) ] } map { [ split(/-|,/, $_) ] } read_lines("input.txt");
 
-my @pairs = read_lines("input.txt");
+my $fully_contained = scalar grep { $_->[0] <= $_->[1] || $_->[1] <= $_->[0] } @tuples;
 
-my ($fully_contained, $overlapping) = count_ranges(@pairs);
+my $overlapping = scalar grep { scalar ($_->[0] * $_->[1])->members } @tuples;
 
 say "Among the pairs, $fully_contained ranges fully contain the other.";
 
