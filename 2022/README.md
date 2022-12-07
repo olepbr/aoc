@@ -13,3 +13,8 @@ This gives us some niceties: `say()` instead of `print()`, strictures enabled by
 default, and… that's about it. Once we get to 5.36 we won't have to enable
 warnings ourselves and – last but not least – will be able to write function
 signatures!
+
+### Non-core modules used
+- [File::Slurper](https://metacpan.org/pod/File::Slurper)
+- [List::Util](https://metacpan.org/pod/List::Util)
+- [Set::Object](https://metacpan.org/pod/Set::Object)
