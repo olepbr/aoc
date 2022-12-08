@@ -8,7 +8,7 @@ use File::Slurper qw(read_lines);
 use Set::Object qw(set);
 
 # array of lines -> split on , and - and make arrayref -> construct tuples of sets and put them into an array
-my @tuples = map { [ (set($_->[0]..$_->[1]), set($_->[2]..$_->[3])) ] } map { [ split(/-|,/, $_) ] } read_lines("input.txt");
+my @tuples = map { [ set($_->[0]..$_->[1]), set($_->[2]..$_->[3]) ] } map { [ split(/-|,/, $_) ] } read_lines("input.txt");
 
 # grep for tuples where either is subset of the other and count
 my $fully_contained = scalar grep { $_->[0] <= $_->[1] || $_->[1] <= $_->[0] } @tuples;
