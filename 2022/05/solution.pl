@@ -8,15 +8,15 @@ use File::Slurper qw(read_lines);
 use List::MoreUtils qw(first_index);
 
 sub populate_stacks {
-    my ($stack_cutoff, $num_stacks, @stack_lines) = @_;
+    my ($num_stacks, @stack_lines) = @_;
     my @stacks;
-    for (my $i = $stack_cutoff-1; $i >= 0; $i--) {
-       for (my $j = 0; $j < $num_stacks; $j++) {
-        my $crate = substr $stack_lines[$i], ($j*4), 3;
-        push @{$stacks[$j]}, $crate if ($crate =~ /\[\w\]/ );
+    foreach (@stack_lines) {
+       for my $i (0..$num_stacks) {
+        my $crate = substr $_, ($i*4), 3;
+        push @{$stacks[$i]}, $crate if ($crate =~ /\[\w\]/ );
        } 
     }
-    return @stacks;
+    return map { [ reverse @{$_} ] } @stacks;
 }
 
 sub top_printer {
@@ -39,7 +39,6 @@ sub cratemover_9001 {
     my ($commands, @stacks) = @_;
     foreach (@{$commands}) {
         my ($amount, $from, $to) = @{$_};
-        my $from_length = scalar @{$stacks[$from]};
         push @{$stacks[$to]}, splice(@{$stacks[$from]}, -$amount, $amount);
     }
     top_printer(9001, @stacks);
@@ -51,7 +50,7 @@ my @lines = read_lines("input.txt");
 my $stack_cutoff = first_index{ $_ =~ / 1/ } @lines;
 
 # get the number of stacks from the end of said line
-my $num_stacks = substr $lines[$stack_cutoff], -2, 1;
+my $num_stacks = substr($lines[$stack_cutoff], -2, 1)-1;
 
 # splice out stack-describing lines
 my @stack_lines = splice(@lines, 0, $stack_cutoff);
@@ -59,8 +58,8 @@ my @stack_lines = splice(@lines, 0, $stack_cutoff);
 # throw away some lines we do not care about
 splice(@lines, 0, 2);
 
-my @part1_stacks = populate_stacks($stack_cutoff, $num_stacks, @stack_lines);
-my @part2_stacks = populate_stacks($stack_cutoff, $num_stacks, @stack_lines);
+my @part1_stacks = populate_stacks($num_stacks, @stack_lines);
+my @part2_stacks = populate_stacks($num_stacks, @stack_lines);
 
 my @commands = map { [ $_->[1], $_->[3]-1, $_->[5]-1 ] } map { [ split(" ", $_) ] } @lines;
 
