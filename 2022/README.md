@@ -14,7 +14,7 @@ default, and… that's about it. Once we get to 5.36 we won't have to enable
 warnings ourselves and – last but not least – will be able to write function
 signatures!
 
-### Non-core modules used
+### Non-standard modules used
 - [File::Slurper](https://metacpan.org/pod/File::Slurper)
-- [List::Util](https://metacpan.org/pod/List::Util)
+- [List::MoreUtils](https://metacpan.org/pod/List::MoreUtils)
 - [Set::Object](https://metacpan.org/pod/Set::Object)
