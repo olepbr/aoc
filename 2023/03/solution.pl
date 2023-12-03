@@ -46,6 +46,8 @@ sub find_parts ($lines_ref) {
                 push @part_nos, $1;
                 next;
             }
+
+            # The following character is a symbol.
             if ( $end < length($line) - 1 && exists $sym_pos[$i]{$end} ) {
                 my $fol_char = $sym_pos[$i]{$end};
                 if ( $fol_char eq "*" ) {
@@ -61,6 +63,8 @@ sub find_parts ($lines_ref) {
                 next;
             }
             my $valid = 0;
+
+            # We're not on the first line; check the previous line for symbols.
             if ( $i > 0 ) {
                 my $prev_line = $i - 1;
                 my $hr        = $sym_pos[$prev_line];
@@ -82,6 +86,9 @@ sub find_parts ($lines_ref) {
                     }
                 }
             }
+
+            # Check the next line for symbols, as long as we're not at the end
+            # and haven't already found one.
             if ( !$valid && $i < $#lines ) {
                 my $next_line = $i + 1;
                 my $hr        = $sym_pos[$next_line];
